@@ -26,10 +26,68 @@ Constraints:
 
 */
 
+// bruteforce version
+
 /**
  * @param {number[]} nums
  * @return {number}
  */
 var longestConsecutive = function(nums) {
-    
+    if (nums.length === 0) return 0;
+
+    // Sort the array
+    let sortedNums = nums.sort((a, b) => a - b);
+
+    let max = 1;
+    let count = 1;
+
+    for (let i = 1; i < sortedNums.length; i++) {
+        // Skip duplicates
+        if (sortedNums[i] === sortedNums[i - 1]) {
+            continue;
+        }
+        
+        // Check if the current number is consecutive
+        if (sortedNums[i] === sortedNums[i - 1] + 1) {
+            count++;
+        } else {
+            // Reset the count if the sequence is broken
+            count = 1;
+        }
+
+        // Update the maximum length of the consecutive sequence
+        if (count > max) {
+            max = count;
+        }
+    }
+
+    return max;
 };
+
+// Optimized version
+var longestConsecutive = function(nums) {
+    if (nums.length === 0) return 0;
+    
+    const numSet = new Set(nums);
+    let maxStreak = 0;
+
+    for (let num of numSet) {
+        // Only consider 'num' if it's the start of a sequence
+        if (!numSet.has(num - 1)) {
+            let currentNum = num;
+            let currentStreak = 1;
+
+            // Count consecutive numbers
+            while (numSet.has(currentNum + 1)) {
+                currentNum++;
+                currentStreak++;
+            }
+
+            maxStreak = Math.max(maxStreak, currentStreak);
+        }
+    }
+
+    return maxStreak;
+};
+
+console.log(longestConsecutive([1,0,1,2,3]));  // Output: 4
