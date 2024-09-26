@@ -25,11 +25,52 @@ Constraints:
 
 */
 
+/*
 
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
+BRUTEFORCE
+
+*/
+
+function productExceptSelf(nums) {
+    const n = nums.length;
+    const answer = [];
+    for (let i = 0; i < n; i++) {
+        let product = 1;
+        for (let j = 0; j < n; j++) {
+            if (j !== i) {
+                product *= nums[j];
+            }
+        }
+        answer.push(product);
+    }
+    return answer;
+}
+
+/*
+
+OPTIMIZED APPROACH
+
+*/
+
 var productExceptSelf = function(nums) {
-    
+    let answer = [];
+
+    // Initialize the first element of answer to 1, since there are no elements to the left of it
+    answer[0] = 1;
+
+    // First pass: calculate the left-side products
+    let leftside = 1;
+    for (let i = 1; i < nums.length; i++) {
+        leftside = leftside * nums[i - 1];
+        answer[i] = leftside;
+    }
+
+    // Second pass: calculate the right-side products and update the answer array
+    let rightside = 1;
+    for (let i = nums.length - 1; i >= 0; i--) {
+        answer[i] = answer[i] * rightside;
+        rightside = rightside * nums[i];
+    }
+
+    return answer;
 };
