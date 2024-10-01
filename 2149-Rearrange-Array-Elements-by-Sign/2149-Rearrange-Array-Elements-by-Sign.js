@@ -42,8 +42,53 @@ nums consists of equal number of positive and negative integers.
  * @param {number[]} nums
  * @return {number[]}
  */
+
+// bruteforce method
+
 var rearrangeArray = function(nums) {
-    
+    let result = [];
+    let posIndex = 0;
+    let negIndex = 1;
+    for(let i=0; i<nums.length; i++){
+        if(nums[i]>0){
+            result[posIndex] = nums[i];
+            posIndex = posIndex + 2;
+        }else{
+            result[negIndex] = nums[i];
+            negIndex = negIndex + 2;
+        }
+    }
+
+    return result;
+};
+
+// optimized method
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var rearrangeArray = function(nums) {
+   let posIndex = 0;
+   let negIndex = 1;
+
+   while(posIndex < nums.length && posIndex < nums.length){
+        while(posIndex <nums.length && nums[posIndex]>0){
+            posIndex = posIndex + 2;
+        }
+
+        while(negIndex < nums.length &&  nums[negIndex] < 0){
+            negIndex = negIndex + 2;
+        }
+
+        if (posIndex < nums.length && negIndex < nums.length) {
+            let temp = nums[posIndex];
+            nums[posIndex] = nums[negIndex];
+            nums[negIndex] = temp;
+        }
+
+   }
+
+   return nums;
 };
 
 console.log(rearrangeArray([3,1,-2,-5,2,-4]));
