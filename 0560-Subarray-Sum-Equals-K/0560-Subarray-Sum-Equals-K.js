@@ -35,15 +35,12 @@ Constraints:
 
 //Bruteforce method
 
-var subarraySum = function(nums, k) {
+var subarraySum1 = function(nums, k) {
 
     let subCount = 0;
     for(let i=0; i<nums.length; i++){
-        let sum = nums[i];
-        if(sum == k){
-                subCount++;
-        }
-        for(let j=i+1; j<nums.length; j++){
+        let sum = 0;
+        for(let j=i; j<nums.length; j++){
             sum = sum + nums[j];
             if(sum == k){
                 subCount++;
@@ -54,4 +51,24 @@ var subarraySum = function(nums, k) {
     return subCount;
 };
 
-console.log(subarraySum([1,1,1],2))
+var subarraySum = function(nums, k) {
+
+    let prefixSumMap = {};
+    let prefixSum  = 0;
+    let subarrayCount = 0;
+    prefixSumMap[0] = 1;
+
+    for(let i=0; i<nums.length; i++){
+        prefixSum = prefixSum + nums[i];
+        if(prefixSumMap[(prefixSum-k)]){
+            subarrayCount += prefixSumMap[prefixSum-k];
+        }
+
+        prefixSumMap[prefixSum] = (prefixSumMap[prefixSum] || 0) + 1;
+    }
+    
+    return subarrayCount;
+}
+
+console.log(subarraySum([1,2,3,-2,5],3));
+
