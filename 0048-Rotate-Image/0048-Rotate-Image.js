@@ -1,5 +1,7 @@
 /*
 
+0048-Rotate-Image
+
 You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).
 
 You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
@@ -25,3 +27,27 @@ n == matrix.length == matrix[i].length
 -1000 <= matrix[i][j] <= 1000
 
 */
+
+
+/**
+ * @param {number[][]} matrix
+ * @return {void} Do not return anything, modify matrix in-place instead.
+ */
+
+
+// BRUTEFORCE METHOD
+var bruteForceRotate = function(matrix) {
+
+    let len = matrix.length;
+    let  result = new Array(len).fill(0).map(()=> new Array(len).fill(0));
+    
+    for(let i=0;i< len; i++ ){
+        for(let j=0; j<len; j++){
+            result[j][len-1-i] = matrix[i][j];
+        }        
+    }
+
+    return result;
+};
+
+console.log(rotate([[1,2,3],[4,5,6],[7,8,9]]));
